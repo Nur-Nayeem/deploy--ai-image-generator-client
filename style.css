@@ -1,0 +1,303 @@
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  background-color: #222;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2rem;
+}
+
+/* Generator Layout */
+.generator-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 2rem;
+  gap: 2rem;
+  background: #fff;
+}
+
+/* 🖼️ Image Display Section */
+.image-section .image-wrapper {
+  position: relative;
+  width: 400px;
+  height: 300px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* ⏳ Loader on top of image */
+.loader-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.loader-text {
+  font-weight: bold;
+  color: #444;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* ✅ Publish Button */
+.image-section button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.image-section button:hover {
+  background-color: #45a049;
+}
+
+/* 🔵 Prompt Form & Upload */
+.input-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+  width: 100%;
+}
+
+.input-section textarea {
+  padding: 0.75rem;
+  font-size: 1rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 100px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.input-section input[type="file"] {
+  padding: 0.5rem 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-section button {
+  padding: 0.75rem 1.2rem;
+  font-size: 1rem;
+  background-color: #2b72ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.input-section button:hover {
+  background-color: #195bd8;
+}
+
+/* 📷 Upload Preview Box */
+.preview-box {
+  margin-top: 1rem;
+}
+
+.preview-box img {
+  max-width: 100%;
+  max-height: 150px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* 🖼️ Gallery */
+.gallery-section {
+  padding: 2rem;
+  text-align: center;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.image-card img {
+  max-width: 200px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+}
+
+/* 🔻 Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #eee;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* 🔄 Fade-in Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ⏳ Cloudinary Publish Spinner */
+#loadingSpinner {
+  font-weight: bold;
+  color: #333;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+
+/* 🌐 Responsive Design for Tablets & Mobiles (≤768px) */
+@media (max-width: 768px) {
+  .generator-section {
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 1rem;
+  }
+
+  .image-section .image-wrapper {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .input-section form {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .input-section textarea,
+  .input-section button {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .gallery {
+    justify-content: center;
+  }
+
+  .image-card img {
+    max-width: 100%;
+    width: 100%;
+    max-height: 200px;
+  }
+
+  .preview-box img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  footer {
+    font-size: 0.8rem;
+  }
+}
+
+
+/* 📱 Extra Small Devices (≤320px - e.g. 300px width) */
+@media (max-width: 320px) {
+  body {
+    font-size: 14px;
+  }
+
+  header {
+    padding: 0.75rem;
+  }
+
+  header h1 {
+    font-size: 1.3rem;
+  }
+
+  .generator-section {
+    padding: 1rem 0.5rem;
+    gap: 1rem;
+  }
+
+  .image-section .image-wrapper {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .image-section button {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .input-section form {
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .input-section textarea,
+  .input-section button,
+  .input-section input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .preview-box img {
+    max-width: 80px;
+    max-height: 80px;
+  }
+
+  .gallery {
+    gap: 0.5rem;
+  }
+
+  .image-card img {
+    max-width: 100%;
+    max-height: 150px;
+  }
+
+  footer {
+    font-size: 0.75rem;
+    padding: 0.75rem;
+  }
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+  <title>Image Generator</title>
+</head>
+<body>
+  <header>
+    <h1>🖼️ Image Generator</h1>
+  </header>
+
+  <section class="generator-section">
+    <!-- Image Display -->
+    <div class="image-section">
+      <div class="image-wrapper">
+        <img id="generatedImage" src="https://placehold.co/400x300" alt="Generated Image" />
+        <div id="imageLoader" class="loader-overlay" style="display: none;">
+          <span class="loader-text">Generating...</span>
+        </div>
+      </div>
+
+      <!-- Publish Button Loading -->
+      <div id="loadingSpinner" style="display:none; margin-top:10px;">
+        <span>⏳ Publishing...</span>
+      </div>
+
+      <!-- Publish Button -->
+      <button id="publishBtn" style="display: none; margin-top:10px;">Publish</button>
+    </div>
+
+    <!-- Prompt and Upload Section -->
+    <div class="input-section">
+      <form id="promptForm">
+        <textarea
+          id="promptInput"
+          rows="7"
+          placeholder="Enter your prompt here..."
+          required
+        ></textarea>
+
+        <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+          <!-- Image Upload -->
+          <input type="file" id="imageUpload" accept="image/*" />
+
+          <!-- Upload Preview -->
+          <div id="uploadPreview" class="preview-box" style="display: none;">
+            <img id="previewImage" src="https://placehold.co/40" alt="Preview" />
+          </div>
+
+          <!-- Generate Button -->
+          <button type="submit" id="generator">Generate</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="gallery-section">
+    <h2>Generated Gallery</h2>
+    <div class="gallery">
+      <!-- Image cards will be dynamically inserted here -->
+    </div>
+    <div id="pagination"></div>
+  </section>
+
+  <footer>
+    © 2025 Nur Nayeem. All rights reserved.
+  </footer>
+
+  <!-- Script -->
+  <script src="/client/script.js"></script>
+</body>
+</html>
