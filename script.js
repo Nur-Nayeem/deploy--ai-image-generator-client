@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
             // --- CONFIGURATION ---
-            const API_BASE_URL = "http://localhost:3000";
+            const API_BASE_URL = "https://deploy-ai-image-gen-server.onrender.com";
             const IMAGES_PER_PAGE = 12;
 
             // --- STATE ---
