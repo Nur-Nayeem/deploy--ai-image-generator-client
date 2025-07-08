@@ -1,13 +1,13 @@
-        
-        document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
             // --- CONFIGURATION ---
-            const API_BASE_URL = "https://deploy-ai-image-gen-server.onrender.com";
-            const IMAGES_PER_PAGE = 12; // Increased for the new layout
+            const API_BASE_URL = "http://localhost:3000";
+            const IMAGES_PER_PAGE = 12;
 
             // --- STATE ---
             let currentPage = 1;
             let images = [];
             let isGenerating = false;
+            let currentPrompt = "";
 
             // --- ELEMENT REFERENCES ---
             const form = document.getElementById("promptForm");
@@ -35,11 +35,27 @@
 
             const imageModal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
+            const modalPrompt = document.getElementById('modalPrompt');
             const closeModalBtn = document.getElementById('closeModalBtn');
 
-            // --- FUNCTIONS ---
+            // --- SOCKET.IO SETUP ---
+            const socket = io(API_BASE_URL);
 
-            // Fix: Clear textarea on page load
+            socket.on('connect', () => {
+                console.log('Connected to real-time server!');
+            });
+
+            socket.on('new-image', (newImage) => {
+                console.log('New image received:', newImage);
+                // Add the new image to the start of the array
+                images.unshift(newImage);
+                // Re-render the gallery to show the new image
+                renderGallery();
+                renderPagination();
+                showToast('A new image was just published!', 'success');
+            });
+
+
             const clearTextareaOnLoad = () => {
                 promptInput.value = "";
             };
@@ -107,17 +123,29 @@
                 const end = start + IMAGES_PER_PAGE;
                 const pageImages = images.slice(start, end);
                 
-                pageImages.forEach(url => {
+                pageImages.forEach(image => {
+                    const itemContainer = document.createElement("div");
+                    itemContainer.className = "gallery-item w-full rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300 cursor-pointer overflow-hidden";
+                    
                     const img = document.createElement("img");
-                    img.className = "w-full rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300 cursor-pointer";
-                    img.src = url;
-                    img.alt = "Gallery Image";
+                    img.src = image.url;
+                    img.alt = image.prompt;
                     img.loading = "lazy";
-                    img.onclick = () => {
-                        modalImage.src = url;
+                    img.className = "w-full";
+
+                    const promptOverlay = document.createElement("div");
+                    promptOverlay.className = "prompt-overlay";
+                    promptOverlay.textContent = image.prompt;
+
+                    itemContainer.appendChild(img);
+                    itemContainer.appendChild(promptOverlay);
+
+                    itemContainer.onclick = () => {
+                        modalImage.src = image.url;
+                        modalPrompt.textContent = image.prompt;
                         imageModal.classList.remove('hidden');
                     };
-                    gallery.appendChild(img);
+                    gallery.appendChild(itemContainer);
                 });
             };
 
@@ -178,6 +206,7 @@
                     showToast("Please enter a prompt.", 'error');
                     return;
                 }
+                currentPrompt = prompt; // Store the prompt
 
                 imageDisplayArea.classList.remove('hidden');
 
@@ -234,18 +263,20 @@
                     const response = await fetch(`${API_BASE_URL}/publish-image`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ base64Image: base64 }),
+                        body: JSON.stringify({ base64Image: base64, prompt: currentPrompt }), // Send prompt with image
                     });
 
                     const data = await response.json();
 
-                    if (data.url) {
-                        showToast("✅ Published successfully!", 'success');
-                        publishBtn.classList.add('hidden');
-                        await loadImages(); // Refresh gallery
-                    } else {
+                    if (!response.ok) {
                         throw new Error(data.error || "Upload failed.");
                     }
+                    
+                    // The socket event will handle the UI update, so we don't need to do it here.
+                    // We just hide the publish button and show a success message.
+                    publishBtn.classList.add('hidden');
+                    showToast("✅ Published successfully!", 'success');
+
                 } catch (error) {
                     console.error("Publish error:", error);
                     showToast(error.message, 'error');
@@ -292,5 +323,3 @@
             clearTextareaOnLoad();
             loadImages();
         });
-    
-    
