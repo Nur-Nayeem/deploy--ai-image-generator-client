@@ -1,12 +1,15 @@
         
         document.addEventListener('DOMContentLoaded', () => {
+            // --- CONFIGURATION ---
             const API_BASE_URL = "https://deploy-ai-image-gen-server.onrender.com";
+            const IMAGES_PER_PAGE = 12; // Increased for the new layout
 
-            const IMAGES_PER_PAGE = 12; 
+            // --- STATE ---
             let currentPage = 1;
             let images = [];
             let isGenerating = false;
 
+            // --- ELEMENT REFERENCES ---
             const form = document.getElementById("promptForm");
             const promptInput = document.getElementById("promptInput");
             const imageDisplayArea = document.getElementById("imageDisplayArea");
@@ -34,8 +37,9 @@
             const modalImage = document.getElementById('modalImage');
             const closeModalBtn = document.getElementById('closeModalBtn');
 
+            // --- FUNCTIONS ---
 
-
+            // Fix: Clear textarea on page load
             const clearTextareaOnLoad = () => {
                 promptInput.value = "";
             };
