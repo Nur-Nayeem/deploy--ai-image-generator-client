@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     // --- CONFIGURATION ---
-    const API_BASE_URL = "https://deploy-ai-image-gen-server.onrender.com";
+    const API_BASE_URL = "https://ai-img-gen-server-railway-production.up.railway.app";
     // const API_BASE_URL = "http://localhost:3000";
 
     const IMAGES_PER_PAGE = 8;
