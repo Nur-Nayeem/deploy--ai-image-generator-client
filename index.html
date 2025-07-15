@@ -29,20 +29,8 @@
 
             <section class="generator-section grid-layout">
 
-                <div id="imageDisplayArea" class="image-display-area hidden">
-                    <div id="initialState" class="image-display-initial">
-                        <i class="fa-regular fa-image image-display-icon icon-size"></i>
-                        <p class="image-display-text">Your generated image will appear here</p>
-                    </div>
-                    <div id="imageLoader" class="image-loader hidden">
-                        <i class="fa-solid fa-spinner spinner"></i>
-                        <p class="image-loader-text">Generating your vision...</p>
-                    </div>
-                    <img id="generatedImage" src="" alt="Generated Image" class="generated-image hidden" />
-                </div>
-
                 <form id="promptForm" autocomplete="off">
-                    
+
                     <div class="prompt-form">
                         <label for="promptInput" class="form-label">Your Prompt</label>
                         <textarea id="promptInput" rows="8" class="form-textarea"
@@ -69,6 +57,18 @@
                         </button>
                     </div>
                 </form>
+
+                <div id="imageDisplayArea" class="image-display-area hidden">
+                    <div id="initialState" class="image-display-initial">
+                        <i class="fa-regular fa-image image-display-icon icon-size"></i>
+                        <p class="image-display-text">Your generated image will appear here</p>
+                    </div>
+                    <div id="imageLoader" class="image-loader hidden">
+                        <i class="fa-solid fa-spinner spinner"></i>
+                        <p class="image-loader-text">Generating your vision...</p>
+                    </div>
+                    <img id="generatedImage" src="" alt="Generated Image" class="generated-image hidden" />
+                </div>
 
             </section>
 
