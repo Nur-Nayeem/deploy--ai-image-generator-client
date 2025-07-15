@@ -1,123 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Image Studio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Socket.IO Client -->
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-
 </head>
+
 <body class="antialiased">
 
-    <div class="container mx-auto p-4 md:p-8">
+    <div class="container">
 
-        <!-- Header -->
-        <header class="text-center mb-8 md:mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight flex items-center justify-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles text-blue-400"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+        <header class="header">
+            <h1 class="header-title">
+                <i data-lucide="sparkles" class="icon logo-icon"></i>
                 AI Image Generator
             </h1>
-            <p class="text-gray-400 mt-2">Bring your imagination to life with the power of AI.</p>
+            <p class="header-subtitle">Bring your imagination to life with the power of AI.</p>
         </header>
 
-        <main class="flex flex-col gap-8 md:gap-12">
+        <main class="main-content">
 
-            <!-- Generator Section -->
-            <section class="bg-gray-800/50 p-6 rounded-2xl shadow-lg border border-gray-700">
+            <section class="generator-section grid-layout">
+
+                <div id="imageDisplayArea" class="image-display-area hidden">
+                    <div id="initialState" class="image-display-initial">
+                        <i class="fa-regular fa-image image-display-icon icon-size"></i>
+                        <p class="image-display-text">Your generated image will appear here</p>
+                    </div>
+                    <div id="imageLoader" class="image-loader hidden">
+                        <i class="fa-solid fa-spinner spinner"></i>
+                        <p class="image-loader-text">Generating your vision...</p>
+                    </div>
+                    <img id="generatedImage" src="" alt="Generated Image" class="generated-image hidden" />
+                </div>
+
                 <form id="promptForm" autocomplete="off">
-                    <!-- Prompt Input -->
-                    <div class="mb-4">
-                        <label for="promptInput" class="block text-lg font-semibold mb-2 text-gray-300">Your Prompt</label>
-                        <textarea id="promptInput" rows="4" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-3 text-gray-200 focus:ring-2 focus:ring-blue-500 transition-all duration-200" placeholder="e.g., A cinematic shot of a raccoon astronaut on Mars, detailed, 8k"></textarea>
+                    
+                    <div class="prompt-form">
+                        <label for="promptInput" class="form-label">Your Prompt</label>
+                        <textarea id="promptInput" rows="8" class="form-textarea"
+                            placeholder="e.g., A cinematic shot of a raccoon astronaut on Mars, detailed, 8k"></textarea>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                        <div id="imageDisplayArea" class="w-full aspect-square bg-gray-900/70 rounded-lg border-2 border-dashed border-gray-600 flex items-center justify-center transition-all duration-300 overflow-hidden hidden">
-                            <!-- Initial State -->
-                            <div id="initialState" class="text-center text-gray-500 p-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image-plus mx-auto mb-3"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><line x1="16" x2="22" y1="5" y2="5"/><line x1="19" x2="19" y1="2" y2="8"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                                <p class="font-medium">Your generated image will appear here</p>
-                            </div>
-                            <!-- Loader -->
-                            <div id="imageLoader" class="hidden text-center text-gray-400">
-                                <svg class="animate-spin h-10 w-10 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                <p class="mt-3 font-semibold">Generating your vision...</p>
-                            </div>
-                            <img id="generatedImage" src="" alt="Generated Image" class="hidden w-full h-full object-contain" />
+                    <div class="controls-column">
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="imageUpload" accept="image/*" class="file-input">
                         </div>
-
-
-                        <div class="flex flex-col gap-4">
-
-                            <div class="relative">
-                                <input type="file" id="imageUpload" accept="image/*" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-700 file:text-gray-200 hover:file:bg-gray-600 transition-colors">
-                            </div>
-                            <div id="uploadPreview" class="hidden relative w-24 h-24 self-start">
-                                <img id="previewImage" src="" alt="Upload Preview" class="w-full h-full object-cover rounded-lg border border-gray-600" />
-                                <button id="removeUploadBtn" type="button" class="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-1 shadow-lg transition-transform transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-500">
-                                    <i data-lucide="x" class="w-4 h-4"></i>
-                                </button>
-                            </div>
-                          <button type="submit" id="generator" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 transform hover:scale-105 disabled:bg-blue-800 disabled:cursor-not-allowed">
-                                <i data-lucide="sparkles" class="w-5 h-5"></i>
-                                <span id="generatorText">Generate</span>
-                            </button>
-                             <button id="publishBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg items-center justify-center gap-2 transition-all duration-200 transform hover:scale-105 disabled:bg-green-800 disabled:cursor-not-allowed hidden">
-                                <i data-lucide="upload-cloud" class="w-5 h-5"></i>
-                                <span id="publishText">Publish</span>
+                        <div id="uploadPreview" class="upload-preview hidden">
+                            <img id="previewImage" src="" alt="Upload Preview" class="preview-image" />
+                            <button id="removeUploadBtn" type="button" class="remove-upload-btn">
+                                <i data-lucide="x" class="icon"></i>
                             </button>
                         </div>
+                        <button type="submit" id="generator" class="btn btn-primary">
+                            <i data-lucide="sparkles" class="icon"></i>
+                            <span id="generatorText">Generate</span>
+                        </button>
+                        <button id="publishBtn" class="btn btn-secondary hidden">
+                            <i data-lucide="upload-cloud" class="icon"></i>
+                            <span id="publishText">Publish</span>
+                        </button>
                     </div>
                 </form>
+
             </section>
 
-            <!-- Gallery Section -->
-            <section class="bg-gray-800/50 p-6 rounded-2xl shadow-lg border border-gray-700">
-                <h2 class="text-2xl font-bold mb-4 text-white">Community Gallery</h2>
-                <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-                    <!-- Gallery images will be inserted here -->
+            <section class="gallery-section">
+                <h2 class="gallery-title">Community Gallery</h2>
+                <div id="gallery" class="gallery-grid">
                 </div>
-                <div id="pagination" class="flex justify-center items-center gap-2 mt-4">
-                    <!-- Pagination controls will be inserted here -->
+                <div id="pagination" class="pagination-controls">
                 </div>
             </section>
+
         </main>
-        
-        <!-- Footer -->
-        <footer class="text-center mt-12 text-gray-500 text-sm">
+
+        <footer class="footer">
             <p>© 2025 Nur Nayeem. All rights reserved.</p>
         </footer>
 
     </div>
 
-    <!-- Image Modal -->
-    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 hidden modal-fade-in">
-        <div class="relative max-w-4xl max-h-full modal-zoom-in">
-            <img id="modalImage" src="" alt="Full-size view" class="w-auto h-auto max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl">
-            <p id="modalPrompt" class="text-center text-white mt-2 bg-black/50 p-2 rounded-b-lg"></p>
-            <button id="closeModalBtn" class="absolute -top-4 -right-4 bg-white hover:bg-gray-200 text-gray-800 rounded-full p-2 shadow-lg transition-transform transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                <i data-lucide="x" class="w-6 h-6"></i>
+    <div id="imageModal" class="modal hidden modal-fade-in">
+        <div class="modal-content modal-zoom-in">
+            <img id="modalImage" src="" alt="Full-size view" class="modal-image">
+            <p id="modalPrompt" class="modal-prompt"></p>
+            <button id="closeModalBtn" class="close-modal-btn">
+                <i data-lucide="x" class="icon"></i>
             </button>
         </div>
     </div>
 
-
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-gray-800 text-white py-3 px-5 rounded-lg shadow-2xl border border-gray-700 transform translate-y-full opacity-0 hidden">
+    <div id="toast" class="toast hidden">
         <p id="toastMessage"></p>
     </div>
 
     <script src="./script.js"></script>
 </body>
+
 </html>
